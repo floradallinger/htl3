@@ -111,6 +111,7 @@ public class Belt extends Thread{
                 Thread.sleep(5);
                 move();
                 System.out.println(toString());
+
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
