@@ -1,6 +1,6 @@
 package runnableSushi;
 
-public class Belt {
+public class Belt extends Thread{
 
     private Food[] foodArr;
 
@@ -102,5 +102,18 @@ public class Belt {
             }
         }
         return sb.toString();
+    }
+
+    @Override
+    public void run() {
+        try {
+            while(!isInterrupted()){
+                Thread.sleep(5);
+                move();
+                System.out.println(toString());
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
