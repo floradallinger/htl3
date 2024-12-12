@@ -36,7 +36,12 @@ public class Belt extends Thread{
      * @return true if the belt is empty, false otherwise
      */
     public boolean isEmpty() {
-        return foodArr.length == 0;
+        for (Food food : foodArr) {
+            if (food != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

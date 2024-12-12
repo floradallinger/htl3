@@ -2,6 +2,7 @@ package runnableSushi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Producer extends Thread {
 
@@ -10,6 +11,7 @@ public class Producer extends Thread {
     private final Belt belt;
     private int pos;
     private List<Food> producedFood;
+    private Random rand = new Random();
 
     private int lastFoodIndex = 1;
 
@@ -58,7 +60,7 @@ public class Producer extends Thread {
                         belt.add(f, pos);
                     }
                 }
-                Thread.sleep(1000);
+                Thread.sleep(rand.nextInt(1000, 2000));
             }
         } catch (InterruptedException ignore) {}
 

@@ -7,7 +7,7 @@ public class CleanerBehaviour implements ConsumerPattern{
     public List<Food> consume(List<Food> foodList, String name, Belt belt, int pos) {
         Food f = null;
         try {
-            while(!Thread.interrupted() || !belt.isEmpty()){
+            while(!Thread.interrupted()){
                 synchronized(belt){
                     if(!belt.isEmpty()){
                         if(belt.isFreeAtPosition(pos)){
@@ -15,6 +15,9 @@ public class CleanerBehaviour implements ConsumerPattern{
                         } else {
                             foodList.add(belt.remove(pos));
                         }
+
+                    } else {
+                        break;
                     }
                 }
             }
