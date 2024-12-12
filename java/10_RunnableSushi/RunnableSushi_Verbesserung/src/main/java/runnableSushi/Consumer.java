@@ -1,14 +1,16 @@
 package runnableSushi;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Consumer {
+public class Consumer extends Thread{
 
     private String name;
     private ConsumerType consumerType;
     private Belt belt;
     private int pos;
     private List<Food> foodList;
+    private ConsumerPattern consumerBehav;
 
     /**
      * Constructor
@@ -22,6 +24,15 @@ public class Consumer {
         this.name = name;
         this.belt = belt;
         this.pos = pos;
+        foodList = new ArrayList<Food>();
+        switch (consumerType) {
+            case GUEST:
+                consumerBehav = new CustomerBehaviour();
+                break;
+            case CLEANER:
+                consumerBehav = new CleanerBehaviour();
+                break;
+        }
     }
 
     /**
@@ -34,5 +45,13 @@ public class Consumer {
             sb.append(food.toString());
         }
         return sb.toString();
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Consumer " + name + " started consuming at position " + pos);
+
+        foodList = consumerBehav.consume(foodList, name, belt, pos);
+
     }
 }

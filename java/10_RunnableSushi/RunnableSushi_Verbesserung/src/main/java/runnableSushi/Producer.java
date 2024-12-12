@@ -1,14 +1,17 @@
 package runnableSushi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Producer extends Thread {
 
     private String name;
     private FoodType foodType;
-    private Belt belt;
+    private final Belt belt;
     private int pos;
     private List<Food> producedFood;
+
+    private int lastFoodIndex = 1;
 
     /**
      * Constructor
@@ -22,6 +25,7 @@ public class Producer extends Thread {
         this.foodType = foodType;
         this.belt = belt;
         this.pos = pos;
+        this.producedFood = new ArrayList<Food>();
     }
 
     /**
@@ -38,23 +42,26 @@ public class Producer extends Thread {
 
     @Override
     public void run(){
+
+        System.out.println("Producer " + name + " starts producing at position " + pos);
         try {
-            synchronized (belt) {
-                System.out.println("Producer " + name + " starts producing at position " + pos);
-                while (!isInterrupted()) {
-                    Thread.sleep(1000);
-                    if (belt.isFreeAtPosition(pos)) {
-                        String id = this.name + (producedFood.size() - 1);
-                        Food f = new Food(id, foodType);
-                        System.out.println(name + " placed " + id + "at position " + pos);
-                        belt.add(f, pos);
+            while (!isInterrupted()) {
+                String id = String.format("%s-%d", this.name, lastFoodIndex++);
+                Food f = new Food(id, foodType);
+
+                synchronized (belt) {
+                    if (!belt.isFreeAtPosition(pos)) {
+                        belt.wait();
+                        System.out.println("Producer " + name + " waits for free at position " + pos);
                     } else {
-                        Thread.sleep(1000);
+                        System.out.println(name + " placed " + id + " at position " + pos);
+                        belt.add(f, pos);
                     }
                 }
+                Thread.sleep(1000);
             }
-        } catch (InterruptedException ignored) {
-        }
+        } catch (InterruptedException ignore) {}
+
         System.out.println("Producer " + name + "produced: " + getProducedFood());
     }
 }

@@ -2,7 +2,7 @@ package runnableSushi;
 
 public class Belt extends Thread{
 
-    private Food[] foodArr;
+    private final Food[] foodArr;
 
     /**
      *
@@ -19,10 +19,7 @@ public class Belt extends Thread{
      * @return true if the position is valid, false otherwise
      */
     public boolean isValidPosition(int pos) {
-        if(pos >= 0 && pos < foodArr.length) {
-            return true;
-        }
-        return false;
+        return pos >= 0 && pos < foodArr.length;
     }
 
     /**
@@ -48,8 +45,8 @@ public class Belt extends Thread{
      * @param pos The position on the belt where the food should be added
      * @return true if the food was added successfully, false otherwise
      */
-    public boolean add(Food food, int pos) {
-        if(isValidPosition(pos) && isFreeAtPosition(pos)) {
+    public synchronized boolean add(Food food, int pos) {
+        if(isFreeAtPosition(pos)) {
             foodArr[pos] = food;
             return true;
         }
@@ -61,7 +58,7 @@ public class Belt extends Thread{
      * @param pos The position on the belt where the food should be removed
      * @return The food that was removed or null if there was no food at the given position
      */
-    public Food remove(int pos) {
+    public synchronized Food remove(int pos) {
         if(isFreeAtPosition(pos) && !isValidPosition(pos)) {
             return null;
         }
@@ -74,18 +71,12 @@ public class Belt extends Thread{
     /**
      * Moves all food on the belt one position to the right
      */
-    public void move() {
-        Food[] newFoodArr = new Food[foodArr.length];
-        for(int i = 0; i < foodArr.length; i++) {
-            for(int j = 1; j < newFoodArr.length; j++) {
-                if(i == foodArr.length - 1) {
-                    newFoodArr[0] = foodArr[i];
-                } else {
-                    newFoodArr[j] = foodArr[i];
-                }
-            }
+    public synchronized void move() {
+        Food lastFood = foodArr[foodArr.length - 1];
+        for(int i = foodArr.length -1; i > 0; i--) {
+            foodArr[i] = foodArr[i - 1];
         }
-        foodArr = newFoodArr;
+        foodArr[0] = lastFood;
     }
 
     /**
@@ -98,7 +89,8 @@ public class Belt extends Thread{
         for(int i = 0; i < foodArr.length; i++) {
             if(isFreeAtPosition(i)){
                 sb.append("(" + i + ":....)-");
-
+            } else {
+                sb.append("(" + i + ": " + foodArr[i].toString() + ")");
             }
         }
         return sb.toString();
@@ -108,13 +100,15 @@ public class Belt extends Thread{
     public void run() {
         try {
             while(!isInterrupted()){
-                Thread.sleep(5);
-                move();
-                System.out.println(toString());
-
+                synchronized (this) {
+                    this.move();
+                    this.notifyAll();
+                    System.out.println(toString());
+                }
+                Thread.sleep(500);
             }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (InterruptedException ignore) {
         }
+        System.out.println("Belt stopped");
     }
 }
