@@ -42,12 +42,15 @@ public class RunnableSushi {
             guest3.join();
             Consumer cleaner1 = new Consumer(ConsumerType.CLEANER, "Cleaner1", belt, 0);
             cleaner1.start();
-            if(belt.isEmpty()){
-                cleaner1.interrupt();
-                cleaner1.join();
-                belt.interrupt();
-                belt.join();
+            while(!belt.isEmpty()) {
+                Thread.sleep(5000);
             }
+
+            cleaner1.interrupt();
+            cleaner1.join();
+            belt.interrupt();
+            belt.join();
+
 
         // Stop the belt
 
