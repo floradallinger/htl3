@@ -1,0 +1,105 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Kurs{
++id: Integer
++titel: String
++kurzbeschreibung: String
++dauer: Integer
++maxTeilnehmer: Integer
++preis: Integer
+-teilnehmer: Integer
+}
+
+class Kursprogramm{
++kurs_id: Integer
++termin: Date
++kursleiter: Vortragende
++trainer: Vortragende[]
++raum_id: Integer
+}
+
+class Raum{
++id: Integer
++platz: Integer
+}
+
+class Gebaeude{
++id: Integer
+}
+
+class Vortragende{
++name: String
++qualifikation: Kurs[]
+}
+
+class Kurseinladung{
++beginn: Date
++end: Date
++adresse: String
++raum_id: Integer
+}
+
+class Teilnehmer{
++id: Integer
+}
+
+class Bestaetigung{
++id: Integer
+-kurs_id: Integer
+-teilnehmer_id: Integer
+}
+
+class Rechnung{
++ id: Integer
++ bezahlt: boolean
++ kurs_preis: Integer
+}
+
+class Mahnung{
++id: Integer
++rechnung_id: Integer
++teilnehmer_id: Integer
+}
+
+class Pruefung{
++id: Integer
++antritt: boolean
++erfolg: String
+}
+
+
+Kurs "*"--"*" Kurs
+
+(Kurs, Kurs) .. aufbauend
+
+Raum "*"-->"1" Gebaeude
+
+Kurs "1"<--"*" Kursprogramm
+
+Kursprogramm "*"--"*" Gebaeude
+
+(Kursprogramm, Gebaeude) .. Ort
+
+Kursprogramm "*"--"*" Vortragende
+
+(Kursprogramm, Vortragende) .. Eingeteilt
+
+Kurseinladung "*"-->"1" Anmeldung
+
+Bestaetigung "*"-->"1" Anmeldung
+
+Rechnung "*"-->"1" Teilnehmer
+
+Teilnehmer "*"--"*" Kurs
+
+(Teilnehmer, Kurs) .. Anmeldung
+
+Rechnung "1"<-->"0,1" Mahnung
+
+Pruefung "1"--"*" Kurs
+
+(Pruefung, Kurs) .. Antritt
+
+@enduml
+
