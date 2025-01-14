@@ -3,70 +3,74 @@ skinparam linetype ortho
 'https://plantuml.com/class-diagram
 
 class Kurs{
-+id: Integer
-+titel: String
-+kurzbeschreibung: String
-+dauer: Integer
-+maxTeilnehmer: Integer
-+preis: Integer
++{static}id: Integer
+-titel: String
+-kurzbeschreibung: String
+-dauer: Integer
+-maxTeilnehmer: Integer
+-preis: Integer
 -teilnehmer: Integer
 }
 
 class Kursprogramm{
-+kurs_id: Integer
-+termin: Date
-+kursleiter: Vortragende
-+trainer: Vortragende[]
-+raum_id: Integer
+-kurs_id: Integer
+-raum_id: Integer
+-termin: Date
+-kursleiter: Vortragende
+-trainer: Vortragende[]
 }
 
 class Raum{
-+id: Integer
-+platz: Integer
++{static}id: Integer
+-platz: Integer
 }
 
 class Gebaeude{
-+id: Integer
++{static}id: Integer
+-adresse: String
 }
 
 class Vortragende{
-+name: String
-+qualifikation: Kurs[]
++{static}id: Integer
+-name: String
+-qualifikation: Kurs[]
 }
 
 class Kurseinladung{
-+beginn: Date
-+end: Date
-+adresse: String
-+raum_id: Integer
+-beginn: Date
+-end: Date
+-adresse: String
+-raum_id: Integer
+-teilnehmer_id: Integer
+-kurs_id: Integer
 }
 
 class Teilnehmer{
-+id: Integer
++{static}id: Integer
+-name: String
 }
 
 class Bestaetigung{
-+id: Integer
++{static}id: Integer
 -kurs_id: Integer
 -teilnehmer_id: Integer
 }
 
 class Rechnung{
-+ id: Integer
-+ bezahlt: boolean
-+ kurs_preis: Integer
++{static}id: Integer
+-bezahlt: boolean
+-kurs_preis: Integer
+-teilnehmer_id: Integer
 }
 
 class Mahnung{
-+id: Integer
-+rechnung_id: Integer
-+teilnehmer_id: Integer
+-rechnung_id: Integer
 }
 
 class Pruefung{
-+id: Integer
-+antritt: boolean
-+erfolg: String
++{static}id: Integer
+-antritt: boolean
+-erfolg: String
 }
 
 
