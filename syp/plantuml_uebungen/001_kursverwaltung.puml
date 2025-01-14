@@ -1,4 +1,5 @@
 @startuml
+skinparam linetype ortho
 'https://plantuml.com/class-diagram
 
 class Kurs{
@@ -85,15 +86,15 @@ Kursprogramm "*"--"*" Vortragende
 
 (Kursprogramm, Vortragende) .. Eingeteilt
 
-Kurseinladung "*"-->"1" Anmeldung
+Kurseinladung "1"-->"1" Anmeldung
 
-Bestaetigung "*"-->"1" Anmeldung
+Bestaetigung "1"-->"1" Anmeldung
 
 Rechnung "*"-->"1" Teilnehmer
 
-Teilnehmer "*"--"*" Kurs
+Teilnehmer "*"--"*" Kursprogramm
 
-(Teilnehmer, Kurs) .. Anmeldung
+(Teilnehmer, Kursprogramm) .. Anmeldung
 
 Rechnung "1"<-->"0,1" Mahnung
 
