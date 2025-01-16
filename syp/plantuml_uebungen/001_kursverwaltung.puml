@@ -1,0 +1,110 @@
+@startuml
+skinparam linetype ortho
+'https://plantuml.com/class-diagram
+
+class Kurs{
++{static}id: Integer
+-titel: String
+-kurzbeschreibung: String
+-dauer: Integer
+-maxTeilnehmer: Integer
+-preis: Integer
+-teilnehmer: Integer
+}
+
+class Kursprogramm{
+-kurs_id: Integer
+-raum_id: Integer
+-termin: Date
+-kursleiter: Vortragende
+-trainer: Vortragende[]
+}
+
+class Raum{
++{static}id: Integer
+-platz: Integer
+}
+
+class Gebaeude{
++{static}id: Integer
+-adresse: String
+}
+
+class Vortragende{
++{static}id: Integer
+-name: String
+-qualifikation: Kurs[]
+}
+
+class Kurseinladung{
+-beginn: Date
+-end: Date
+-adresse: String
+-raum_id: Integer
+-teilnehmer_id: Integer
+-kurs_id: Integer
+}
+
+class Teilnehmer{
++{static}id: Integer
+-name: String
+}
+
+class Bestaetigung{
++{static}id: Integer
+-kurs_id: Integer
+-teilnehmer_id: Integer
+}
+
+class Rechnung{
++{static}id: Integer
+-bezahlt: boolean
+-kurs_preis: Integer
+-teilnehmer_id: Integer
+}
+
+class Mahnung{
+-rechnung_id: Integer
+}
+
+class Pruefung{
++{static}id: Integer
+-antritt: boolean
+-erfolg: String
+}
+
+
+Kurs "*"--"*" Kurs
+
+(Kurs, Kurs) .. aufbauend
+
+Raum "*"-->"1" Gebaeude
+
+Kurs "1"<--"*" Kursprogramm
+
+Kursprogramm "*"--"*" Gebaeude
+
+(Kursprogramm, Gebaeude) .. Ort
+
+Kursprogramm "*"--"*" Vortragende
+
+(Kursprogramm, Vortragende) .. Eingeteilt
+
+Kurseinladung "1"-->"1" Anmeldung
+
+Bestaetigung "1"-->"1" Anmeldung
+
+Rechnung "*"-->"1" Teilnehmer
+
+Teilnehmer "*"--"*" Kursprogramm
+
+(Teilnehmer, Kursprogramm) .. Anmeldung
+
+Rechnung "1"<-->"0,1" Mahnung
+
+Pruefung "1"--"*" Kurs
+
+(Pruefung, Kurs) .. Antritt
+
+@enduml
+
