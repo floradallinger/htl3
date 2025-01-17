@@ -22,7 +22,15 @@ public class MainTask2 {
             }
             return true;
         }));
-
+        System.out.println(filterNumbers(numbers, i -> {
+            if(i == 0){
+                return false;
+            }
+            if(77 % i == 0){
+                return true;
+            }
+            return false;
+        }));
 
 
     }
