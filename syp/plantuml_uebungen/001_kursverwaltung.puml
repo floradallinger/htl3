@@ -9,15 +9,10 @@ class Kurs{
 -dauer: Integer
 -maxTeilnehmer: Integer
 -preis: Integer
--teilnehmer: Integer
 }
 
-class Kursprogramm{
--kurs_id: Integer
--raum_id: Integer
--termin: Date
--kursleiter: Vortragende
--trainer: Vortragende[]
+class Kursveranstaltung{
+- kurs_id: Integer
 }
 
 class Raum{
@@ -61,6 +56,7 @@ class Rechnung{
 -bezahlt: boolean
 -kurs_preis: Integer
 -teilnehmer_id: Integer
+-kurs_id: Integer
 }
 
 class Mahnung{
@@ -76,19 +72,17 @@ class Pruefung{
 
 Kurs "*"--"*" Kurs
 
-(Kurs, Kurs) .. aufbauend
+(Kurs, Kurs) .. Vorraussetzungen
 
 Raum "*"-->"1" Gebaeude
 
-Kurs "1"<--"*" Kursprogramm
+Kurs "*"--"*" Raum
 
-Kursprogramm "*"--"*" Gebaeude
+(Kurs, Raum) .. Ort
 
-(Kursprogramm, Gebaeude) .. Ort
+Kurs "*"--"*" Vortragende
 
-Kursprogramm "*"--"*" Vortragende
-
-(Kursprogramm, Vortragende) .. Eingeteilt
+(Kurs, Vortragende) .. Eingeteilt
 
 Kurseinladung "1"-->"1" Anmeldung
 
@@ -96,15 +90,74 @@ Bestaetigung "1"-->"1" Anmeldung
 
 Rechnung "*"-->"1" Teilnehmer
 
-Teilnehmer "*"--"*" Kursprogramm
+Teilnehmer "*"--"*" Kurs
 
-(Teilnehmer, Kursprogramm) .. Anmeldung
+(Teilnehmer, Kurs) .. Anmeldung
 
 Rechnung "1"<-->"0,1" Mahnung
 
 Pruefung "1"--"*" Kurs
 
 (Pruefung, Kurs) .. Antritt
+
+Vortragende "1"<--"*" Kurs :"hauptverantwortlich"
+
+
+
+@enduml
+
+
+@startuml
+skinparam linetype ortho
+
+class Kurs{
+id: Integer
+thema: String
+}
+
+class Kursveranstaltung{
+kurs_id: Integer
+datum: date
+}
+
+class Teilnehmer{
+teilnehmer_id: Integer
+}
+
+class Raum{
+raum_id: Integer
+}
+
+class Vortragende{
+}
+
+class Gebaeude{
+adresse: String
+}
+
+class Buchung{
+gezahlt: boolean
+}
+
+class Mahnung{
+}
+
+class Gebiete{
+
+}
+
+Kurs "1"<--"*" Kursveranstaltung
+Kursveranstaltung <-- Teilnehmer :besucht
+(Kursveranstaltung, Teilnehmer) .. Buchung
+Kursveranstaltung "*"--"*" Teilnehmer
+(Kursveranstaltung, Teilnehmer) .. besucht
+Kursveranstaltung "*"--"1" Raum :findet statt
+Raum "*"--"1" Gebaeude :befindet sich
+Buchung -- Mahnung
+Vortragende "*"--"*" Kursveranstaltung :trägt vor
+Vortragende "1"<--"*" Kursveranstaltung :leitet
+Vortragende "*"--"*" Gebiete :qualifiziert
+Kurs -- Gebiete
 
 @enduml
 
