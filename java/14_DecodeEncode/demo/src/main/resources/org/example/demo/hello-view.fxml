@@ -16,16 +16,17 @@
 
     <GridPane>
         <Label text="Alphabet: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-        <Button text="Standard" prefWidth="100" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+        <TextField fx:id="txtAlphabet" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Button text="Standard" prefWidth="100" GridPane.rowIndex="0" GridPane.columnIndex="2" onAction="#onStandardButtonClicked"/>
 
         <Label text="Key: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-        <Button text="Recalc" prefWidth="100" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+        <TextField fx:id="txtKey" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Button text="Recalc" prefWidth="100" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#onRecalcButtonClicked"/>
     </GridPane>
 
     <Label text="Plain text: "/>
     <TextArea prefWidth="400" />
+    <Button text="Encrypt"/>
 
     <Label text="Encrypted Text: "/>
     <TextArea prefWidth="400" />
