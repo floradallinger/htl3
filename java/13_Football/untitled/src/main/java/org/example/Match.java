@@ -13,6 +13,7 @@ public record Match(String Gruppe,
                     Integer ToreGast,
                     Integer ToreHeimHZ,
                     Integer ToreGastHZ){
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
