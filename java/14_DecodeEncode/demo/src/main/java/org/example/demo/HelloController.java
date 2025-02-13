@@ -34,5 +34,7 @@ public class HelloController {
                 .limit(alphabet.length())
                 .map(String::valueOf)
                 .collect(Collectors.joining());
+
+        txtKey.setText(key);
     }
 }
