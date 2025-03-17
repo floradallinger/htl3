@@ -25,9 +25,8 @@
     </GridPane>
 
     <Label text="Plain text: "/>
-    <TextArea prefWidth="400" />
-    <Button text="Encrypt"/>
+    <TextArea fx:id="txtPlainText" prefWidth="400" />
 
     <Label text="Encrypted Text: "/>
-    <TextArea prefWidth="400" />
+    <TextArea fx:id="txtEncryptedText" prefWidth="400" />
 </VBox>
