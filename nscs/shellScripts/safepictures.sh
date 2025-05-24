@@ -11,8 +11,8 @@ mkdir -p bilder_folder
 cat $txtDatei | while read url; do
     echo $url
     curl --output bilder_folder/$(basename $url) "$url"
-    
 done
+
 cd bilder_folder
 for i in *.jpg *.JPG; do
     #yearOfPicture=$(exiftool -d '%Y' -DateTimeOriginal -S -s "$i")
