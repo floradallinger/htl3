@@ -7,36 +7,36 @@ import java.sql.SQLException;
 public class Database {
     private static Database instance;
 
-    private static String URL;
-    private static String USERNAME;
-    private static String PASSWORD;
+    private String url;
+    private String username;
+    private String password;
 
     private static Connection connection;
 
-    private Database(String url, String username, String password){
-        Database.URL = url;
-        Database.USERNAME = username;
-        Database.PASSWORD = password;
+    public Database(String url, String username, String password){
+        this.url = url;
+        this.username = username;
+        this.password = password;
 
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static Database getInstance(String url, String username, String password) {
-        if (instance == null) {
-            synchronized (Database.class) {
-                if (instance == null) {
-                    instance = new Database(url, username, password);
-                }
-            }
-        }
-        return instance;
-    }
-
     public Connection getConnection(){
         return connection;
+    }
+
+    public void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Datenbankverbindung geschlossen");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
